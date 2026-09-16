@@ -1,25 +1,33 @@
 #include "board.h"
+#include "../utils/utils.h"
 
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 
 void board::init() {
-    for (int i = 0; i < FIELD_SIZE_ROW; i++) {
-        for (int j = 0; j < FIELD_SIZE_COL; j++) {
-            if (i == 0 || i == FIELD_SIZE_ROW - 1 || j == 0 || j == FIELD_SIZE_COL - 1) {
-                this->field[i][j] = tile(tile::states::BOARDER);
-            } else {
-                this->field[i][j] = tile(tile::states::FREE);
-            }
+    for (int i = 0; i < FIELD_SIZE; i++) {
+        int row = i / FIELD_SIZE_COL;
+        int col = i % FIELD_SIZE_COL;
+
+        this->ref_ids[i] = 0;
+        if (row == 0 || row == FIELD_SIZE_ROW - 1 || col == 0 || col == FIELD_SIZE_COL - 1) {
+            this->states[i] = tile_states::BOARDER;
+        } else {
+            this->states[i] = tile_states::FREE;
         }
     }
 }
 
-void board::print() {
-    for (const auto & i : this->field) {
-        for (const tile & j : i) {
-            std::cout << std::setw(3) << static_cast<int>(j.state) << " ";
+std::string board::to_pstring() {
+    std::ostringstream result;
+    result << "\n";
+    for (int row = 0; row < FIELD_SIZE_ROW; ++row) {
+        for (int col = 0; col < FIELD_SIZE_COL; ++col) {
+            uint8_t tile_state = this->get_tile_state(row, col);
+            result << std::setw(3) << static_cast<int>(tile_state) << ' ';
         }
-        std::cout << std::endl;
+        result << '\n';
     }
+    return result.str();
 }

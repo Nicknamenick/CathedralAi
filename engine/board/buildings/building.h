@@ -2,18 +2,21 @@
 #define ENGINE_BUILDING_H
 
 #include <cstdint>
+#include <string>
+#include <array>
 
 class building {
 public:
-    
-    constexpr static unsigned int ROT1 = 90;
-    constexpr static unsigned int ROT2 = 180;
-    constexpr static unsigned int ROT3 = 270;
+    std::array<std::array<uint8_t, 16>, 4> shapes = {};
 
-    uint8_t shape[4][3] = {};
+    building(const std::array<uint8_t, 16>& initial_shape);
 
-    void rotate(int rotation_index);
-    void print();
+    inline uint8_t get_tile(int row, int col, int rotation_index = 0) const {
+        return this->shapes[rotation_index][row * 4 + col];
+    }
+
+    [[nodiscard]] std::string to_pstring(int rotation_index) const;
+    static std::array<uint8_t, 16> rotate(int rotation_index, const std::array<uint8_t, 16>& shape);
 };
 
 #endif
