@@ -12,4 +12,5 @@ add_executable(engine main.cpp
         board/buildings/building.cpp
         utils/utils.h
         utils/utils.cpp
+        board/buildings/buildings.h
         )

@@ -6,8 +6,12 @@
 #include <array>
 
 class building {
+private:
+    static uint16_t next_ref_id;
+
 public:
     std::array<std::array<uint8_t, 16>, 4> shapes = {};
+    uint16_t ref_id = 0;
 
     building(const std::array<uint8_t, 16>& initial_shape);
 

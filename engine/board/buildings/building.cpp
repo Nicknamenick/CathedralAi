@@ -24,6 +24,8 @@ building::building(const std::array<uint8_t, 16>& initial_shape) {
     for (int rotation_index = 1; rotation_index < 4; ++rotation_index) {
         this->shapes[rotation_index] = rotate(rotation_index, this->shapes[0]);
     }
+
+    this->ref_id = ++next_ref_id;
 }
 
 [[nodiscard]] std::string building::to_pstring(int rotation_index) const {

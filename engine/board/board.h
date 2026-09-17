@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <array>
 #include <string>
+#include "buildings/building.h"
 
 constexpr uint8_t FIELD_SIZE_ROW = 12;
 constexpr uint8_t FIELD_SIZE_COL = 12;
@@ -26,11 +27,6 @@ public:
 
     std::array<uint8_t, FIELD_SIZE> states = {};
     std::array<uint16_t, FIELD_SIZE> ref_ids = {};
-    uint16_t next_tile_id = 0;
-
-    inline uint16_t get_next_ref_id() {
-        return this->next_tile_id++;
-    }
 
     inline uint8_t& get_tile_state(int row, int col) {
         return this->states[row * FIELD_SIZE_COL + col];
@@ -41,7 +37,13 @@ public:
     }
 
     void init();
-    std::string to_pstring();
+
+    [[nodiscard]] bool is_valid_move(const building& b, int row, int col, int rotation_index, uint8_t player_id) const;
+
+    [[nodiscard]] uint16_t place_building(const building& b, int row, int col, int rotation_index, uint8_t player_id) const;
+    void capture_building(uint16_t ref_id, uint8_t player_id);
+
+    [[nodiscard]] std::string to_pstring();
 };
 
 
